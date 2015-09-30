@@ -6,6 +6,7 @@ $(document).ready(function() {
 
 		var obj = this;
 		this.showing = false;
+		this.color = 'red';
 	
 		this.size = {w:0, h:0}
 		this.position = {
@@ -15,7 +16,16 @@ $(document).ready(function() {
 
 		this.draw = function() {
 			this.showing = true;
-			context.drawImage(this.asset, 0,0, this.asset.width, this.asset.height, this.position.x, this.position.y, this.asset.width, this.asset.height);
+			if(this.asset){
+				context.drawImage(this.asset, 0,0, this.asset.width, this.asset.height, this.position.x, this.position.y, this.asset.width, this.asset.height);				
+			} else {
+				context.save();
+				context.fillStyle = this.color;
+
+				context.fillRect(this.position.x, this.position.y, this.size.w,this.size.h);
+				context.restore();
+			}
+
 		}
 
 		this.move = function(pixelsX, pixelsY) {
@@ -64,16 +74,7 @@ $(document).ready(function() {
 
 	var square1 = new AnimatedObject();
 	square1.setSize(50,50);
-
-	square1.draw = function(){
-		this.showing = true;
-		context.save();
-		context.fillStyle = "orange";
-
-		context.fillRect(this.position.x, this.position.y, this.size.w,this.size.h);
-		context.restore();
-	}
-
+	square1.color = "orange";
 	square1.draw();
 
 	function animate() {
